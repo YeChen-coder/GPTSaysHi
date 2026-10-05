@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><title>GPTSaysHi · ChatGPT Live</title>
+<style>
+body{width:310px;margin:0;padding:20px;background:#171b20;color:#e7e9ec;font:14px system-ui}
+h1{font-size:18px;margin:0 0 12px}p{line-height:1.6;color:#b9c3ca}button{width:100%;padding:10px;margin:5px 0;border:0;border-radius:7px;font:inherit;cursor:pointer;background:#79dbb6;color:#11251e}
+button.secondary{background:#323b43;color:#e7e9ec}button:disabled{opacity:.5;cursor:default}#status{min-height:44px;color:#e7e9ec}a{color:#79dbb6}
+</style>
+<h1>GPTSaysHi · ChatGPT Live</h1>
+<p>Start a Live conversation in this ChatGPT tab, then click Connect. Only this tab’s playback audio is captured.</p>
+<button id="start">Connect this ChatGPT tab</button>
+<button id="stop" class="secondary">Stop browser capture</button>
+<p id="status">Loading status…</p>
+<a href="http://127.0.0.1:19088/" target="_blank">Open avatar preview</a>
+<script type="module" src="popup.js"></script></html>

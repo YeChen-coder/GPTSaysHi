@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+ProcessAudio.exe
+assets/
+.downloads/
+dist/
+results/
+node_modules/
+.env
+*.log

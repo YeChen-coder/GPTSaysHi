@@ -1,0 +1,27 @@
+name: gptsayshi
+services:
+  avatar:
+    image: gptsayshi:local
+    build: .
+    gpus: all
+    restart: "no"
+    mem_limit: 6g
+    cpus: 4
+    environment:
+      FEATHERTALK_MODE: fast
+      FEATHERTALK_BUFFER_MS: "100"
+      FEATHERTALK_TEETH_MODE: new
+      FEATHERTALK_SETTLE_MS: "400"
+      FEATHERTALK_DETAIL_PROFILE: model_idle
+      REFRESH_CHECKPOINT: /work/checkpoints/retrain_20261004/best.pth
+      REFRESH_BASE: /work/data/loop_round2_candidate1_pingpong
+      REFRESH_TEETH: /work/data/teeth_round2_candidate1_pingpong
+      REFRESH_DETAIL: /work/data/detail_round2_candidate1_pingpong
+    volumes:
+      - ./assets:/work:ro
+    ports:
+      - "127.0.0.1:19088:8081"
+    networks: [local]
+networks:
+  local:
+    driver: bridge

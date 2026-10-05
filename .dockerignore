@@ -1,0 +1,10 @@
+.git
+.venv
+assets
+.downloads
+dist
+results
+node_modules
+__pycache__
+*.exe
+tests

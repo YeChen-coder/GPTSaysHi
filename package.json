@@ -1,0 +1,7 @@
+{
+  "name": "gptsayshi",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Browser integration tests for the standalone Windows ChatGPT audio avatar",
+  "devDependencies": {"playwright": "1.62.1"}
+}
