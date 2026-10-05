@@ -36,6 +36,12 @@ included with Windows. No audio driver installation is needed.
 
 Clone the repository, then run these commands in PowerShell:
 
+You can also download **gptsayshi-windows-v0.1.0.zip** from the release and extract
+the `GPTSaysHi` folder. It includes the compiled Windows capture helper. The
+`Start ChatGPT.cmd`, `Start Classic.cmd`, `Start Browser.cmd`, and
+`Stop GPTSaysHi.cmd` shortcuts call the same scripts below. Python and Docker
+Desktop are still required; the first start downloads the avatar assets.
+
 ```powershell
 git clone https://github.com/YeChen-coder/GPTSaysHi.git
 cd GPTSaysHi
