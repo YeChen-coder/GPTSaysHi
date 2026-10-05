@@ -2,6 +2,16 @@
 
 A Windows spin-off of SpecterSaysHi that captures audio from ChatGPT Live, ChatGPT Classic, Edge, or Chrome to drive a digital avatar. Optimized for ultra-low first-frame latency and natural lip sync. SpecterSaysHi的衍生项目，在Windows系统上把chatgpt live输出的声音直接接入程序驱动数字人嘴巴动。监听Chatgpt/Chatgpt classic/浏览器（当前支持Edge/Chrome）；工作量体现在极致压缩首帧输出延迟和调教视频令其natural上。
 
+## Demo
+
+[![ChatGPT Live driving the GPTSaysHi avatar in Edge](docs/demo/edge-live-preview.gif)](https://github.com/YeChen-coder/GPTSaysHi/releases/download/v0.1.0/gptsayshi-edge-live-demo.mp4)
+
+ChatGPT Live audio from an Edge tab drives the avatar in real time.
+Click the animated preview to open the full **82-second recording with audio**.
+The preview shows an 8-second excerpt and has no sound.
+
+[Watch or download the full demo](https://github.com/YeChen-coder/GPTSaysHi/releases/download/v0.1.0/gptsayshi-edge-live-demo.mp4).
+
 ## What runs locally
 
 ![GPTSaysHi preview](docs/screenshots/preview.png)
