@@ -7,7 +7,7 @@ A Windows spin-off of SpecterSaysHi that captures audio from ChatGPT Live, ChatG
 [![ChatGPT Live driving the GPTSaysHi avatar in Edge](docs/demo/edge-live-preview.gif)](https://github.com/YeChen-coder/GPTSaysHi/releases/download/v0.1.0/gptsayshi-edge-live-demo.mp4)
 
 ChatGPT Live audio from an Edge tab drives the avatar in real time.
-Click the animated preview to open the full **82-second recording with audio**.
+Click the animated preview to open the **50-second edited demo with audio**.
 The preview shows an 8-second excerpt and has no sound.
 
 [Watch or download the full demo](https://github.com/YeChen-coder/GPTSaysHi/releases/download/v0.1.0/gptsayshi-edge-live-demo.mp4).
