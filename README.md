@@ -102,6 +102,13 @@ execution policy.
 
 ## ChatGPT app or Classic
 
+To add two launchers to your Windows desktop, run `./install_desktop.ps1`.
+**GPTSaysHi-Start.cmd** starts the selected avatar and opens its preview;
+**GPTSaysHi-Stop.cmd** stops GPTSaysHi's container and owned capture processes.
+Both use the fixed `gptsayshi` Docker project on port 19088, independently of
+SpecterSaysHi. Audio still connects through the app command or browser extension
+described below. Run the installer again if you move the project directory.
+
 Open the relevant app and manually start a normal Live conversation. Then run:
 
 ```powershell

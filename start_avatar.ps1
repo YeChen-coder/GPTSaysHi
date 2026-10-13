@@ -9,7 +9,7 @@ if($LASTEXITCODE -ne 0) { throw 'Invalid GPTSAYSHI_CHARACTER. Use gentleman or Q
 $character=$characterJson | ConvertFrom-Json
 & $python (Join-Path $projectRoot 'assets.py')
 if($LASTEXITCODE -ne 0) { throw 'Selected avatar assets could not be installed. Run setup.ps1.' }
-& docker compose --project-directory $projectRoot -f (Join-Path $projectRoot 'compose.yaml') up -d --build
+& docker compose --project-name gptsayshi --project-directory $projectRoot -f (Join-Path $projectRoot 'compose.yaml') up -d --build
 if($LASTEXITCODE -ne 0) { throw 'Avatar startup failed. Check Docker Desktop and NVIDIA GPU support.' }
 $ready=$false
 for($attempt=0;$attempt -lt 90;$attempt++) {
