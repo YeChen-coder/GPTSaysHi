@@ -1,5 +1,30 @@
 # Standalone validation
 
+## Engineering audit — October 13, 2026
+
+- Compared Gentleman engineering records with the selected QinChe runtime;
+  [the audit](ENGINEERING.md) maps caching, warmup, streaming, transport,
+  display, teeth, detail and idle-handoff optimizations to their shared code.
+- Restored immediate per-frame publication, including EOF flushes. Twelve CPU
+  checks pass, including three new regression checks for first-frame delivery
+  before later inference completes, worker errors and disconnected consumers.
+- Same-input, seven-trial viewer measurements passed before and after the
+  change. Final steady medians were 55.8 ms to first receipt and 81.2 ms to the
+  decoded-image/rAF display indicator, versus 64.5 / 90.9 ms before. Each trial
+  received and displayed all 40 speech plus ten settling frames. Raw timings
+  and measurement limits are in the audit; initial-use jitter remains.
+- The actual viewer passed 280-frame continuous QinChe speech, both loop turns,
+  HTTP Range/seek/wrap, the exact idle handoff index, interruption, speech
+  resumption during settling and publisher reconnection, without page errors.
+- Windows source replacement/native bridge shutdown and actual isolated Edge
+  and Chrome tab capture passed with the incremental bridge.
+- Gentleman also passed seven viewer trials with all 40 speech and ten settling
+  frames received/displayed per trial. After that compatibility check, the
+  standalone service was switched back to QinChe.
+- Model weights, avatar resource manifests, JPEG quality and input protocol
+  were not changed. The service remains in fast mode with 100 ms packets,
+  four seconds of history and a 400 ms return to matched idle.
+
 ## QinChe update — October 13, 2026
 
 - Nine CPU distribution/selection checks passed, including `.env` versus shell

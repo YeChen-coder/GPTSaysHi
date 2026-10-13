@@ -13,6 +13,7 @@ from fastapi.responses import FileResponse
 from realtime_session import RealtimeLoopSession
 from idle_transition import IdleTransition
 from streaming_resampler import StreamingResampler24To16
+from frame_delivery import deliver_frames
 from engine_runtime import engine, lock
 
 MODE = os.getenv("FEATHERTALK_MODE", "fast").strip().lower()
@@ -82,6 +83,10 @@ def health():
             "frames_rendered": frames_rendered, "teeth_restored_frames": teeth_restored_frames,
             "settle_ms": SETTLE_FRAMES * 40, "settle_frames_rendered": settle_frames_rendered,
             "detail_profile": engine.detail_profile, "detail_last_ms": engine.detail_last_ms,
+            "frame_delivery": "incremental", "history_seconds": 4,
+            "lookahead_frames": {"fast": 0, "balanced": 10, "quality": 25}[MODE],
+            "model_load_seconds": engine.load_seconds,
+            "stream_warmup_seconds": engine.stream_shape_warmup_seconds,
             "error": last_error}
 
 
@@ -106,19 +111,18 @@ async def broadcast(*messages):
                 pass
 
 
-def infer(session, raw, final=False):
+def infer_frames(session, raw, final=False):
     global frames_rendered, teeth_restored_frames
     pcm = np.frombuffer(raw, dtype="<i2").astype(np.float32) / 32768.0
-    images = []
     restored_before = session.teeth_restored_frames
     for index, image in session.push(pcm, final):
         ok, jpeg = cv2.imencode(".jpg", image, [cv2.IMWRITE_JPEG_QUALITY, 95])
         if not ok:
             raise RuntimeError("FeatherTalk JPEG encoding failed")
-        images.append((index, jpeg.tobytes()))
         frames_rendered += 1
-    teeth_restored_frames += session.teeth_restored_frames - restored_before
-    return images
+        teeth_restored_frames += session.teeth_restored_frames - restored_before
+        restored_before = session.teeth_restored_frames
+        yield index, jpeg.tobytes()
 
 
 def infer_settle(transition):
@@ -208,11 +212,12 @@ async def publish(ws: WebSocket):
             await release()
 
     async def render(raw, final=False):
-        global latest
-        images = await asyncio.to_thread(infer, session, raw, final)
-        for index, image in images:
+        async def send_frame(frame):
+            global latest
+            index, image = frame
             latest = (index, image)
             await broadcast({"type": "frame", "index": index}, image)
+        await deliver_frames(infer_frames(session, raw, final), send_frame)
 
     try:
         await broadcast({"type": "reset"})

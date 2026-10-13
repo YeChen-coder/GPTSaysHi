@@ -70,7 +70,7 @@ included with Windows. No audio driver installation is needed.
 
 Clone the repository, then run these commands in PowerShell:
 
-You can also download **gptsayshi-windows-v0.2.0.zip** from the release and extract
+You can also download [**gptsayshi-windows-v0.2.1.zip**](https://github.com/YeChen-coder/GPTSaysHi/releases/tag/v0.2.1) and extract
 the `GPTSaysHi` folder. It includes the compiled Windows capture helper. The
 `Start ChatGPT.cmd`, `Start Classic.cmd`, `Start Browser.cmd`, and
 `Stop GPTSaysHi.cmd` shortcuts call the same scripts below. Python and Docker
@@ -165,6 +165,10 @@ running the standalone version on the same computer.
 Audio is copied after ChatGPT plays it, then sent in 100 ms packets as 24 kHz
 mono PCM16. The bridge retains 200 ms of leading audio and two trailing packets.
 Inference uses bounded history and the fast mode without audio lookahead.
+The bridge sends each generated frame immediately, including final audio
+flushes. GPU reference caching, streaming warmup, CPU thread limits, bounded
+queues, matched idle and settling apply to both characters. See the
+[engineering audit and measured comparison](docs/ENGINEERING.md).
 ChatGPT playback and avatar display do not share a synchronized playback clock;
 end-to-end lip-sync latency has not been measured precisely.
 

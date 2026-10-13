@@ -1,0 +1,159 @@
+{
+  "date": "2026-10-13",
+  "timezone": "America/Toronto",
+  "input_pcm_sha256": "ef0c50cac642cf5659d27da6269f294b2c2a9c6cb7fab200b49990a083eb660a",
+  "input_format": "mono 24 kHz PCM16; 1.6 seconds; 100 ms packets",
+  "notes": [
+    "Both series use the same checkpoint and speech input.",
+    "Steady medians exclude the first of seven trials.",
+    "The pre-change service had already handled speech; the final service had just restarted.",
+    "Sequential local runs on a shared GPU; not a randomized isolated benchmark.",
+    "No new ChatGPT Live call or audible-playback synchronization measurement."
+  ],
+  "series": {
+    "before": {
+      "passed": true,
+      "label": "before",
+      "character": "QinChe",
+      "checkpoint_sha256": "3940a2fc552570e35190e783f408d7e24db239f3c56a436c98ed3263ada94daf",
+      "input": "Same local speech PCM, not a new Live call",
+      "timing": "First complete 100 ms packet send -> receipt / decoded image assignment followed by rAF; excludes capture, packet filling, model load and physical screen scanout",
+      "rounds": [
+        {
+          "round": 1,
+          "first_arrival_ms": 86.09999990463257,
+          "first_display_ms": 89.5,
+          "speech_frames": 40,
+          "settle_frames": 10,
+          "displayed_frames": 50
+        },
+        {
+          "round": 2,
+          "first_arrival_ms": 77,
+          "first_display_ms": 113.5,
+          "speech_frames": 40,
+          "settle_frames": 10,
+          "displayed_frames": 50
+        },
+        {
+          "round": 3,
+          "first_arrival_ms": 65,
+          "first_display_ms": 80.40000009536743,
+          "speech_frames": 40,
+          "settle_frames": 10,
+          "displayed_frames": 50
+        },
+        {
+          "round": 4,
+          "first_arrival_ms": 64,
+          "first_display_ms": 96.40000009536743,
+          "speech_frames": 40,
+          "settle_frames": 10,
+          "displayed_frames": 50
+        },
+        {
+          "round": 5,
+          "first_arrival_ms": 68.5,
+          "first_display_ms": 83.2000002861023,
+          "speech_frames": 40,
+          "settle_frames": 10,
+          "displayed_frames": 50
+        },
+        {
+          "round": 6,
+          "first_arrival_ms": 62.80000019073486,
+          "first_display_ms": 85.80000019073486,
+          "speech_frames": 40,
+          "settle_frames": 10,
+          "displayed_frames": 50
+        },
+        {
+          "round": 7,
+          "first_arrival_ms": 58.799999713897705,
+          "first_display_ms": 95.90000009536743,
+          "speech_frames": 40,
+          "settle_frames": 10,
+          "displayed_frames": 50
+        }
+      ],
+      "steady_first_arrival_median_ms": 64.5,
+      "steady_first_display_median_ms": 90.85000014305115,
+      "range_requests": true,
+      "continuous_indices": true,
+      "idle_handoff": true,
+      "errors": []
+    },
+    "final": {
+      "passed": true,
+      "label": "final",
+      "character": "QinChe",
+      "checkpoint_sha256": "3940a2fc552570e35190e783f408d7e24db239f3c56a436c98ed3263ada94daf",
+      "input": "Same local speech PCM, not a new Live call",
+      "timing": "First complete 100 ms packet send -> receipt / decoded image assignment followed by rAF; excludes capture, packet filling, model load and physical screen scanout",
+      "rounds": [
+        {
+          "round": 1,
+          "first_arrival_ms": 106.90000009536743,
+          "first_display_ms": 159.09999990463257,
+          "speech_frames": 40,
+          "settle_frames": 10,
+          "displayed_frames": 50
+        },
+        {
+          "round": 2,
+          "first_arrival_ms": 51.80000019073486,
+          "first_display_ms": 61.700000286102295,
+          "speech_frames": 40,
+          "settle_frames": 10,
+          "displayed_frames": 50
+        },
+        {
+          "round": 3,
+          "first_arrival_ms": 58.69999980926514,
+          "first_display_ms": 88.19999980926514,
+          "speech_frames": 40,
+          "settle_frames": 10,
+          "displayed_frames": 50
+        },
+        {
+          "round": 4,
+          "first_arrival_ms": 60.30000019073486,
+          "first_display_ms": 101.09999990463257,
+          "speech_frames": 40,
+          "settle_frames": 10,
+          "displayed_frames": 50
+        },
+        {
+          "round": 5,
+          "first_arrival_ms": 63.200000286102295,
+          "first_display_ms": 69.60000038146973,
+          "speech_frames": 40,
+          "settle_frames": 10,
+          "displayed_frames": 50
+        },
+        {
+          "round": 6,
+          "first_arrival_ms": 52.90000009536743,
+          "first_display_ms": 88.69999980926514,
+          "speech_frames": 40,
+          "settle_frames": 10,
+          "displayed_frames": 50
+        },
+        {
+          "round": 7,
+          "first_arrival_ms": 46.5,
+          "first_display_ms": 74.19999980926514,
+          "speech_frames": 40,
+          "settle_frames": 10,
+          "displayed_frames": 50
+        }
+      ],
+      "steady_first_arrival_median_ms": 55.799999952316284,
+      "steady_first_display_median_ms": 81.19999980926514,
+      "range_requests": true,
+      "continuous_indices": true,
+      "idle_handoff": true,
+      "errors": []
+    }
+  }
+}

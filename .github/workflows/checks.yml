@@ -21,6 +21,8 @@ jobs:
       - run: npm ci --ignore-scripts
       - run: node --check browser_extension/worker.js
       - run: node --check browser_extension/offscreen.js
+      - run: node --check tests/benchmark_stream.cjs
+      - run: node --check tests/integration_avatar.cjs
       - name: Compile Windows capture helper
         if: runner.os == 'Windows'
         shell: pwsh
