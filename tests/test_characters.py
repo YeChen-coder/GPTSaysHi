@@ -1,0 +1,56 @@
+import json
+import os
+import shutil
+import tempfile
+import unittest
+from pathlib import Path
+from unittest.mock import patch
+
+from characters import ROOT, select_character
+from assets import verify
+
+
+class CharacterSelection(unittest.TestCase):
+    def test_default_dotenv_and_environment_precedence(self):
+        with tempfile.TemporaryDirectory() as directory, patch.dict(os.environ, {}, clear=True):
+            root = Path(directory)
+            shutil.copy2(ROOT / 'characters.json', root / 'characters.json')
+            self.assertEqual(select_character(root=root)['name'], 'QinChe')
+            (root / '.env').write_text('GPTSAYSHI_CHARACTER="gentleman" # previous avatar\n')
+            self.assertEqual(select_character(root=root)['name'], 'gentleman')
+            with patch.dict(os.environ, {'GPTSAYSHI_CHARACTER': 'qinche'}):
+                self.assertEqual(select_character(root=root)['name'], 'QinChe')
+                self.assertEqual(select_character('gentleman', root)['name'], 'gentleman')
+
+    def test_unknown_identity_is_rejected(self):
+        with self.assertRaisesRegex(ValueError, 'gentleman or QinChe'):
+            select_character('another-person')
+
+    def test_each_identity_uses_its_own_complete_bundle(self):
+        catalog = json.loads((ROOT / 'characters.json').read_text())
+        for name in ('gentleman', 'QinChe'):
+            selected = select_character(name)
+            manifest = json.loads((ROOT / selected['manifest']).read_text())['files']
+            checkpoint = manifest['assets/' + selected['checkpoint']]
+            idle = manifest['assets/' + selected['detail'] + '/idle.mp4']
+            self.assertEqual(checkpoint['sha256'], selected['checkpoint_sha256'])
+            self.assertEqual(idle['sha256'], selected['idle_video_sha256'])
+            for field in ('image', 'landmarks'):
+                self.assertIn('assets/' + selected[field], manifest)
+            for field in ('base', 'teeth', 'detail'):
+                self.assertIn('assets/' + selected[field] + '/manifest.json', manifest)
+            self.assertIn('assets/feather_hubert.pth', manifest)
+        self.assertEqual(catalog['default'], 'QinChe')
+        self.assertNotEqual(select_character('gentleman')['checkpoint'], select_character('QinChe')['checkpoint'])
+
+    def test_verification_uses_only_the_selected_manifest(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / 'assets-manifest.json').write_text(json.dumps({'files': {'assets/missing-old-model': {'bytes': 1, 'sha256': 'missing'}}}))
+            (root / 'qinche-manifest.json').write_text(json.dumps({'files': {}}))
+            self.assertEqual(verify(root, 'qinche-manifest.json'), [])
+            self.assertTrue(verify(root))
+
+
+if __name__ == '__main__':
+    unittest.main()

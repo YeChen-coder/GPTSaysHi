@@ -1,4 +1,37 @@
-# Standalone validation — October 4, 2026
+# Standalone validation
+
+## QinChe update — October 13, 2026
+
+- Nine CPU distribution/selection checks passed, including `.env` versus shell
+  precedence, rejection of unknown identities, identity-specific model/media
+  hashes and verification of only the selected character's manifest.
+- All 84 QinChe runtime resource files matched SHA-256. The visual checkpoint
+  is the completed v14 training run's best validation epoch 22:
+  `3940a2fc552570e35190e783f408d7e24db239f3c56a436c98ed3263ada94daf`.
+  The resource archive is 540,963,041 bytes, SHA-256
+  `6125305134a021c1fc41480d1000fa3f31560927b0cbd3f44d62f1b48aeff1d5`.
+- Standalone Docker build and GPU startup passed for both characters. Switching
+  to gentleman restored its unchanged October 4 checkpoint and 500-frame loop;
+  switching back selected QinChe's 250-frame, 25 fps, 10-second loop. One visual
+  model is loaded per service process. All runtime mounts remain inside this
+  standalone project.
+- Six seconds of local 24 kHz speech produced 150 QinChe speech frames and ten
+  settling frames. Starting near the loop end exercised index wraparound. Teeth
+  restoration ran on speech; output returned to idle without server errors.
+- Source ownership and native bridge shutdown integration passed with QinChe.
+  Actual Edge 153.0.4234.32 and Chrome 155.0.8059.40 extension capture passed in
+  isolated profiles: selected-tab audio drove QinChe, unrelated tab audio sent
+  no packets, and replacement/navigation stopped capture without reconnecting.
+  These browser checks used local fixtures, not a signed-in Live conversation.
+- QinChe's per-frame jaw support is applied to generation and sharpening to
+  preserve the native collar. Its supplied matched-idle cache is verified
+  against its own model, base, bounding boxes and patch hashes. This update does
+  not enable the unselected mouth smoothing experiment.
+- Original gentleman resource files and their release metadata remain intact.
+  The Specter service on port 18988 was not restarted or reconfigured by this
+  work. The standalone service on port 19088 is left on QinChe.
+
+## Initial package — October 4, 2026
 
 The standalone repository was tested from its own directory, virtual environment,
 Dockerfile and downloaded-asset layout. The container is `gptsayshi-avatar-1` and

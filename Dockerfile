@@ -6,7 +6,7 @@ RUN python -m pip install -r /tmp/requirements-avatar.txt
 COPY vendor/feathertalk/ /opt/FeatherTalk/
 COPY engine/ /engine/
 COPY runtime/ /lab/
-COPY selected_release.json /selected_release.json
+COPY characters.py characters.json /lab/
 WORKDIR /lab
 ENV PYTHONPATH=/engine:/lab:/opt/FeatherTalk OMP_NUM_THREADS=4 OPENBLAS_NUM_THREADS=1
 CMD ["python", "/lab/specter_server.py"]

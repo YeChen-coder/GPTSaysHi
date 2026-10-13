@@ -14,7 +14,7 @@ The preview shows an 8-second excerpt and has no sound.
 
 ## What runs locally
 
-![GPTSaysHi preview](docs/screenshots/preview.png)
+![QinChe avatar](docs/screenshots/qinche.jpg)
 
 GPTSaysHi connects the playback audio from a normal ChatGPT Live conversation
 to a FeatherTalk avatar. Use the ChatGPT desktop app, ChatGPT Classic, or one
@@ -25,10 +25,33 @@ This is a standalone project. No SpecterSaysHi checkout, prebuilt Specter image,
 OpenAI API key, or API session is required. ChatGPT still handles the conversation,
 account and voice allowance. GPTSaysHi does not start the Live call for you.
 
-The default avatar uses the October 4, 2026 retrained checkpoint and candidate 1
-with a 20-second forward/reverse idle loop: 500 frames at 25 fps. Speech audio
-always advances forward. The renderer includes the matched teeth and chin assets
-and a 400 ms transition back to idle.
+The default avatar is **QinChe**, using the October 12, 2026 v14 checkpoint
+(best validation at epoch 22) and a 10-second forward/reverse idle loop:
+250 frames at 25 fps. The original **gentleman** remains available with its
+October 4 checkpoint and 20-second, 500-frame idle loop. Each character has
+its own base reference, teeth reference and matched chin cache. Speech audio
+always advances forward; the transition back to idle remains 400 ms.
+
+## Select a character
+
+Create `.env` in this project's directory (or copy `.env.example`) and set:
+
+```dotenv
+GPTSAYSHI_CHARACTER=QinChe
+```
+
+Use `GPTSAYSHI_CHARACTER=gentleman` to switch back to the original avatar.
+Run `.\start_avatar.ps1` after changing the selection, then refresh
+**http://127.0.0.1:19088/**. Restarting recreates the service and loads only the
+selected visual model. Refreshing the page alone does not switch the character.
+Without a setting, QinChe is selected. A PowerShell environment variable takes
+precedence over `.env`; remove that override before changing `.env`.
+
+Startup installs and verifies only the selected character's resources.
+The other character's files remain on disk and are not loaded. ChatGPT app,
+Classic, Edge and Chrome audio capture work with either character.
+
+The demo above shows the original gentleman avatar.
 
 ## Requirements
 
@@ -37,7 +60,8 @@ and a 400 ms transition back to idle.
 - Docker Desktop with Linux containers, WSL 2 and NVIDIA GPU support.
 - An NVIDIA GPU with sufficient available memory. This version uses CUDA 12.1
   and was tested on a 12 GB GPU alongside other local services.
-- About 1.4 GB for extracted avatar assets, plus the Docker image and Python environment.
+- About 725 MB for QinChe's extracted assets, or 1.4 GB for gentleman,
+  plus the Docker image and Python environment. Keeping both uses about 2.1 GB.
 
 The Windows capture helper compiles with the .NET Framework compiler already
 included with Windows. No audio driver installation is needed.
@@ -46,7 +70,7 @@ included with Windows. No audio driver installation is needed.
 
 Clone the repository, then run these commands in PowerShell:
 
-You can also download **gptsayshi-windows-v0.1.0.zip** from the release and extract
+You can also download **gptsayshi-windows-v0.2.0.zip** from the release and extract
 the `GPTSaysHi` folder. It includes the compiled Windows capture helper. The
 `Start ChatGPT.cmd`, `Start Classic.cmd`, `Start Browser.cmd`, and
 `Stop GPTSaysHi.cmd` shortcuts call the same scripts below. Python and Docker
@@ -60,14 +84,15 @@ cd GPTSaysHi
 
 Setup creates a private `.venv`, installs the audio bridge dependency, compiles
 the native audio helper and downloads the hash-pinned avatar resource archive
-from this repository's [v0.1.0 release](https://github.com/YeChen-coder/GPTSaysHi/releases/tag/v0.1.0).
-The roughly 565 MB download expands to about 1.31 GB. The large files stay outside
-Git history; `assets-manifest.json` verifies every installed file.
+from this repository's [v0.2.0 release](https://github.com/YeChen-coder/GPTSaysHi/releases/tag/v0.2.0)
+for QinChe. Gentleman keeps its existing v0.1.0 asset archive. Large models and
+runtime media stay outside Git history; each character's manifest verifies every
+installed file. QinChe's download is about 541 MB and expands to about 725 MB.
 
 For an offline installation, download the archive separately and run:
 
 ```powershell
-python .\assets.py --archive C:\Downloads\gptsayshi-avatar-20261004.zip
+python .\assets.py --character QinChe --archive C:\Downloads\gptsayshi-qinche-20261012.zip
 .\setup.ps1
 ```
 
@@ -176,8 +201,10 @@ runtime/              WebSocket avatar service, streaming and transitions
 engine/               Moving-base FeatherTalk rendering and idle matching
 vendor/feathertalk/    Required upstream runtime code and its original license
 assets/               Downloaded models and avatar data (ignored by Git)
-assets-manifest.json  Per-file resource hashes
-asset-bundle.json     Pinned release archive URL, size and SHA-256
+characters.json       Character mapping and selected release identities
+.env.example          GPTSAYSHI_CHARACTER selection example
+assets-manifest*.json Per-character resource hashes
+asset-bundle*.json    Per-character pinned release archive metadata
 ProcessAudio.cs       Windows process-tree loopback capture
 bridge.py             Desktop audio forwarding and source replacement
 ```

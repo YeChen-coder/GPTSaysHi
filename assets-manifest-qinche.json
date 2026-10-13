@@ -1,0 +1,342 @@
+{
+  "character": "QinChe",
+  "release": "20261012-qinche-v14-epoch22",
+  "files": {
+    "assets/feather_hubert.pth": {
+      "sha256": "3b147e66502132bac3ff76b4730c2a83c341c75251d22a28182a5a1b689cfc46",
+      "bytes": 13480913
+    },
+    "assets/characters/qinche/checkpoints/retrain_20261012/best.pth": {
+      "sha256": "3940a2fc552570e35190e783f408d7e24db239f3c56a436c98ed3263ada94daf",
+      "bytes": 65991410
+    },
+    "assets/characters/qinche/data/base.jpg": {
+      "sha256": "f4f85c9958991ef34a02c7631a1bf13aff5f78f989150373b3c0d61bc431e5a4",
+      "bytes": 307747
+    },
+    "assets/characters/qinche/data/base.lms": {
+      "sha256": "0379a1d8dec4b94835b52590508cf306744824c1b222f54a30f033d2704c033d",
+      "bytes": 880
+    },
+    "assets/characters/qinche/data/loop_base/bboxes.npy": {
+      "sha256": "6795f6eb5155faafd0b3e9f74cfefa3528d5457955086f9a8ec558f4bd2521bb",
+      "bytes": 8128
+    },
+    "assets/characters/qinche/data/loop_base/frames.npy": {
+      "sha256": "18f2e2b3b19a7005ea332d6cde020825c9573bf3f08a5dc022704a9bb2a0766a",
+      "bytes": 587520128
+    },
+    "assets/characters/qinche/data/loop_base/idle.mp4": {
+      "sha256": "2cd43d9f1214dee853f0ddcf29495a31f75a592720e5d0d60fe81bb4c0c2a568",
+      "bytes": 3354720
+    },
+    "assets/characters/qinche/data/loop_base/landmarks.npy": {
+      "sha256": "f15bde49e1dbb9e772f1404288cd24e519edd3936c6bd481e08490d05751429e",
+      "bytes": 220128
+    },
+    "assets/characters/qinche/data/loop_base/manifest.json": {
+      "sha256": "5ddd691af9d77f51db74724a98fdc899c1dda98bc0dd3426a89e8258f40b79d5",
+      "bytes": 291
+    },
+    "assets/characters/qinche/data/loop_base/poster.jpg": {
+      "sha256": "f4f85c9958991ef34a02c7631a1bf13aff5f78f989150373b3c0d61bc431e5a4",
+      "bytes": 307747
+    },
+    "assets/characters/qinche/data/loop_base/source_frame_indices.npy": {
+      "sha256": "a024cf875f6fafb00f7303d2635219f2887b0c730540d9644162c30dd31a9082",
+      "bytes": 2128
+    },
+    "assets/characters/qinche/data/teeth_20260930/base_mesh.npy": {
+      "sha256": "54a36af621cc43910c8051fb3a0dd764471b3c98ae3acce5425e1202749793f2",
+      "bytes": 956128
+    },
+    "assets/characters/qinche/data/teeth_20260930/base_rois.npy": {
+      "sha256": "6dddf865200fb63ad23a472bbaac54d839f1416c3e535e8e4a59a3f7c4f7d050",
+      "bytes": 4128
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_00.npz": {
+      "sha256": "1dfff1f2c6063dcc0f8e188a904437abfb6f73c1f0e69b44fbe68ffa13d9200e",
+      "bytes": 15030
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_01.npz": {
+      "sha256": "f898a1c3a4975ca0678c38a41c73f18e6e11c75be7f5a1b225b4206e54a5cd61",
+      "bytes": 15888
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_02.npz": {
+      "sha256": "f25739c35b1292db9155ef41848cc3ace43658ac4eb07b7e41d5b1e1b6323db6",
+      "bytes": 15754
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_03.npz": {
+      "sha256": "10aef9ccf17f8670b3429357e9e6dc8cb8f3167bd9db08f5b24994f15cf13539",
+      "bytes": 15589
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_04.npz": {
+      "sha256": "9dece858620e986883893ed90b72f560c6fcc272221a1b179f36e47753a1528e",
+      "bytes": 16279
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_05.npz": {
+      "sha256": "ed8a9df4d6aed48a56b4ce91756cec30a6c3a3569a4f7f23442a73c4d959e684",
+      "bytes": 15153
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_06.npz": {
+      "sha256": "612a7cdf32d0a1a3652b8d0285cd16e7186bc33842b4fd0f38386f9070c399cf",
+      "bytes": 16742
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_07.npz": {
+      "sha256": "7452aeb2673f42c5a655972351391e8aced8f32f0f648bb0aeb0afc2d4399eee",
+      "bytes": 15210
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_08.npz": {
+      "sha256": "772835bf455a14ab0325774809f0bfdbc92f4524903cf1dfa7809625383713e2",
+      "bytes": 15332
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_09.npz": {
+      "sha256": "af18d76d66cd47f5643d64f11dc41d34d96fe4c3c2313d9891b1fa1d899d5155",
+      "bytes": 15283
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_10.npz": {
+      "sha256": "0cd1bcafab2670e9e0c70b7fbd5b7820ed79d7c7ff89be10e2ef93225fef2893",
+      "bytes": 17217
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_11.npz": {
+      "sha256": "aeacc76024ebadb7ff95bcbe37c76c9a7e26aeb38529cd10ec86e4b5cac3812c",
+      "bytes": 16508
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_12.npz": {
+      "sha256": "7de2d2e28b7c75d9b8d41c6e1409f2188a9ee11a1a42d2cc7831ca6171090a8d",
+      "bytes": 16301
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_13.npz": {
+      "sha256": "3c0469dffaf39aa6f7a6f96fca0f77ae096f19f4174cef49aeaadacf44da4bcb",
+      "bytes": 14823
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_14.npz": {
+      "sha256": "f069f58554e43c571f85ca546ebe20d0a5e4278aaef6165cb871ef057650a5fb",
+      "bytes": 15858
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_15.npz": {
+      "sha256": "daa3cc769a536c646aca009ebc609adaa476bebce33d1cbb8d8d790adc35e3bc",
+      "bytes": 14782
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_16.npz": {
+      "sha256": "c559eecdc2485bbfbbd356ba883d8e028b29512ef2a6e322862508d0e93dd834",
+      "bytes": 15621
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_17.npz": {
+      "sha256": "d22e0571c89655e8e92d9aa06f779ebc00844b75d9ed40c05d0f21a06b35100f",
+      "bytes": 16727
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_18.npz": {
+      "sha256": "ea7db96b41b626b4679c05c014769c55a5e22f622cbda0625194a5dfa89791c3",
+      "bytes": 14967
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_19.npz": {
+      "sha256": "df265c7198f5a8bc586456419fb410333139b72160cf24d90fcac5d991cf0c95",
+      "bytes": 16862
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_20.npz": {
+      "sha256": "e50215c8677c9fd5968fd09d19a25e8e6dcc1854ad533ed3d5d821dc213a4c71",
+      "bytes": 15353
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_21.npz": {
+      "sha256": "487224d5e63708a3c31d6c3035feb06901f91a523148a52ff0f4febc549f8239",
+      "bytes": 15080
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_22.npz": {
+      "sha256": "9757553af22fdc6d5afce29b49a89f0660045db712375b280b46275027f5d882",
+      "bytes": 16379
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_23.npz": {
+      "sha256": "194d19f5e235ecde30e5036d5d4f0318759db650d02bf8bca3fb0158c97937a1",
+      "bytes": 17588
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_24.npz": {
+      "sha256": "058351c425e38bebd42185cfc9cc89df1dc9faec79f2ffaa4d06f7e06c5e6281",
+      "bytes": 14965
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_25.npz": {
+      "sha256": "cdede94bc976c60eb6d97b611da29c652681413661cb26f3baef240fe2c8a463",
+      "bytes": 16330
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_26.npz": {
+      "sha256": "422ce7f83ad9025436a4ae3d33b7eac317f573cd8ec98bdf1978a1d0fe1c66be",
+      "bytes": 14905
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_27.npz": {
+      "sha256": "79258fa3d6325e7e6fe6ab07af7beb3ba0a8794fcb1e0e12b78d8622d7a4a156",
+      "bytes": 15738
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_28.npz": {
+      "sha256": "b7ff0876c21abfb25d48b2199b6c63da846b8daf9ca42f6c5855176267127715",
+      "bytes": 17222
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_29.npz": {
+      "sha256": "fa770c7d7e75698b91947d6068edd8462b51837dee1783fd8c581e12b69c39e2",
+      "bytes": 15410
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_30.npz": {
+      "sha256": "a7d7bf5c629c6a0a3382bc6b6e56e5576b418cbad98a850152ab3349be5b6a32",
+      "bytes": 16302
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_31.npz": {
+      "sha256": "f1f4b5aaad607ae38ae139c721120a1300152cf1c3ccdf85710f484384b5ac58",
+      "bytes": 15218
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_32.npz": {
+      "sha256": "69aaea01864119d3ad50a8b331d0c66497192a6754fa99a96dbec2b92517ce1d",
+      "bytes": 17587
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_33.npz": {
+      "sha256": "4769785e8674216bcacdb8cf37f16daca6e92012f60218a3dd50e5247c097895",
+      "bytes": 15153
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_34.npz": {
+      "sha256": "43cbbdacbb3a8f3c3d66a2269ccd4b19a6a3cd4540238287cbb7403a5dec94fa",
+      "bytes": 16033
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_35.npz": {
+      "sha256": "22cc35410ea0f938586271bd3e1cded500961174a2ad867361a79790689b1137",
+      "bytes": 15627
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_36.npz": {
+      "sha256": "3660d51669ad7d5cdcaf058047b0d78f768df8de641e8cc2d984fc7a140a6200",
+      "bytes": 15599
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_37.npz": {
+      "sha256": "f7852fe03ec3026c211461da2f4cb617ee762a679f5452d911d4219121b94bf1",
+      "bytes": 15385
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_38.npz": {
+      "sha256": "58d09631f3ff75b86ed9b8086053afdb436fc7593182cbe77e9c87836765691d",
+      "bytes": 18396
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_39.npz": {
+      "sha256": "38e84bc5cbab0cff8fcc072b7531981268bf7d4513479b833552e279919a1730",
+      "bytes": 16993
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_40.npz": {
+      "sha256": "3d5a03de70266bb24b621c6a78db1fa9625bfee5f2bfab9d831aaf2bdfef0f91",
+      "bytes": 15877
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_41.npz": {
+      "sha256": "34b4fee57c4e867e4f1ad6dc4ef893dd68ea5f4daf8194b0029eace546a26fa9",
+      "bytes": 15563
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_42.npz": {
+      "sha256": "fb35c6014ce72ff8b76e6646f50ca06aa25d3d4e66485750b63cc4a1aa414b3a",
+      "bytes": 16208
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_43.npz": {
+      "sha256": "b25c314c57b36a4bd49d5bd6e2e1f55936a8feee050bf9d9c1d092b1a3519736",
+      "bytes": 16553
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_44.npz": {
+      "sha256": "d92d5a1ee1bd752fef8e5d65d2ef712e04605016073204a64763b4b9fcd64ef8",
+      "bytes": 14588
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_45.npz": {
+      "sha256": "1320b6055931793a420d2b3c2e484a1a47e2c09bdfedadeca32ec3e9e8d71f2c",
+      "bytes": 15124
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_46.npz": {
+      "sha256": "c5ba15831f36b00ed49900eee7cc37993df67787a3cd1e32bed3e0a2995221c2",
+      "bytes": 16932
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_47.npz": {
+      "sha256": "55ee93724895836886c6beb763619660b3e3a037216836c2c48d8890a663225f",
+      "bytes": 15100
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_48.npz": {
+      "sha256": "1717898738a7006503a20d5744feef9ec9e5e33c52118091cc2b83be724a9c30",
+      "bytes": 14489
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_49.npz": {
+      "sha256": "f69f777ba4b4a6f6c1b622882eff8ebbe708e7a81f4d869899c7f6b0793e8253",
+      "bytes": 16094
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_50.npz": {
+      "sha256": "bc4d2ed38ed731310bbf2b9a05bf569821e75a577621be07cece252ea130cd4a",
+      "bytes": 15481
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_51.npz": {
+      "sha256": "6225446bdff7141ee923c117387191ca47bb7a00fa702bc0681add465cc1f0df",
+      "bytes": 16027
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_52.npz": {
+      "sha256": "18bf40cc9081aa5fe96d5f6501974805b0b756e8418e896eeef52ee9e887623c",
+      "bytes": 17263
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_53.npz": {
+      "sha256": "ee7c83b6a613874f0b2e4937cbd268577a2df7aaaef9bdb8fd40b577da50cfae",
+      "bytes": 15661
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_54.npz": {
+      "sha256": "244b67b5c170a388f3034e1d5c357c68ac1bdd759ca959febc4163aff55e823f",
+      "bytes": 15840
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_55.npz": {
+      "sha256": "675ad2fc6e8bd2c035767c922da4214fd8ad4ec436d5dd601999af20fc1c3949",
+      "bytes": 15642
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_56.npz": {
+      "sha256": "81bf0cce42c43bfc4d8c65bc55f82bb9c90c210a6239d0ef80ba2c83eedbb9ee",
+      "bytes": 15793
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_57.npz": {
+      "sha256": "27191555b0b936a1cbacfa5f048e20bb88004783ae0d1874bc747300a76e6f07",
+      "bytes": 17971
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_58.npz": {
+      "sha256": "21817b9314ba9a875e96ef9bce3ea9d1544027854aabadf45eeb3a542cf23389",
+      "bytes": 16562
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_59.npz": {
+      "sha256": "225aaa235b093af60dcc67770e5f729d9b698652a226f33330146655d543f96b",
+      "bytes": 15568
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_60.npz": {
+      "sha256": "48de143ba4b1091e5362f0422ed847f807bff750a88f685be0dbcbb70097af6f",
+      "bytes": 16498
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_61.npz": {
+      "sha256": "2c69392f64bd58685c828747b3caa3dbd855f36c2ee4b4042fc41789fa0c7dde",
+      "bytes": 15620
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_62.npz": {
+      "sha256": "94dc1196adc1f3bb286240724f074dad07251e22d09ff42235192c5ff1ae21e0",
+      "bytes": 16289
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_63.npz": {
+      "sha256": "5fc94a022092965c985ead38f614b1f6812fb4229772b11ac16b11f57b2438d8",
+      "bytes": 16649
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_64.npz": {
+      "sha256": "366c2671ec327e26132008b2bc90d557ec6c1aa7835ba8c6c577e48a02297b97",
+      "bytes": 17171
+    },
+    "assets/characters/qinche/data/teeth_20260930/donor_65.npz": {
+      "sha256": "74db6ac85979499fe6a8e49766d3dd5fb932b65aa9d68488aa5126a8460a2497",
+      "bytes": 16011
+    },
+    "assets/characters/qinche/data/teeth_20260930/manifest.json": {
+      "sha256": "b35d5f746ee95c6e63146f8e0a8c050fc1c20b05f693f10155b5fb94bc0395a3",
+      "bytes": 33891
+    },
+    "assets/characters/qinche/data/detail_balance/chin_patches.npy": {
+      "sha256": "559e812e55aa0901e0371bc398e48bdbddbb99beaebca950a9a648de205c66fc",
+      "bytes": 47628128
+    },
+    "assets/characters/qinche/data/detail_balance/idle.mp4": {
+      "sha256": "39630990c8f18e8489ddbd58776ae53f68fd81915aece644808456119398139f",
+      "bytes": 3351447
+    },
+    "assets/characters/qinche/data/detail_balance/manifest.json": {
+      "sha256": "73102b06b57ab9e1b0e55740c65e008047e64ba31be671e5a450f201ee7574c7",
+      "bytes": 617
+    },
+    "assets/characters/qinche/data/detail_balance/poster.jpg": {
+      "sha256": "56209e64f24d06b4e63d4acc557f76a8e3364cb56a3704c6be019a90d02caec9",
+      "bytes": 318455
+    }
+  }
+}

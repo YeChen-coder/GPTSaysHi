@@ -1,0 +1,31 @@
+{
+  "default": "QinChe",
+  "characters": {
+    "gentleman": {
+      "release": "20261004-selected-idle-1-pingpong",
+      "checkpoint_sha256": "205e908f2e9ae8364417110d14f35c856ead742a0dd6c5b1a6388b5da507715d",
+      "idle_video_sha256": "345be64e81b66fb72b5be15103c7a5cd8a96c582f87875f72546049ee86a6202",
+      "checkpoint": "checkpoints/retrain_20261004/best.pth",
+      "base": "data/loop_round2_candidate1_pingpong",
+      "teeth": "data/teeth_round2_candidate1_pingpong",
+      "detail": "data/detail_round2_candidate1_pingpong",
+      "image": "data/base.jpg",
+      "landmarks": "data/base.lms",
+      "manifest": "assets-manifest.json",
+      "bundle": "asset-bundle.json"
+    },
+    "QinChe": {
+      "release": "20261012-qinche-v14-epoch22",
+      "checkpoint_sha256": "3940a2fc552570e35190e783f408d7e24db239f3c56a436c98ed3263ada94daf",
+      "idle_video_sha256": "39630990c8f18e8489ddbd58776ae53f68fd81915aece644808456119398139f",
+      "checkpoint": "characters/qinche/checkpoints/retrain_20261012/best.pth",
+      "base": "characters/qinche/data/loop_base",
+      "teeth": "characters/qinche/data/teeth_20260930",
+      "detail": "characters/qinche/data/detail_balance",
+      "image": "characters/qinche/data/base.jpg",
+      "landmarks": "characters/qinche/data/base.lms",
+      "manifest": "assets-manifest-qinche.json",
+      "bundle": "asset-bundle-qinche.json"
+    }
+  }
+}

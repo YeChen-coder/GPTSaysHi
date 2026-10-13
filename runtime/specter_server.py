@@ -46,7 +46,7 @@ frames_rendered = 0
 teeth_restored_frames = 0
 settle_frames_rendered = 0
 last_error = ""
-release = json.loads(Path("/selected_release.json").read_text())
+release = engine.assets.metadata
 
 
 @app.get("/")
@@ -70,11 +70,13 @@ def health():
             "viewers": len(viewers), "speech_active": active, "mode": MODE,
             "buffer_ms": BUFFER_MS, "teeth_mode": TEETH,
             "source": publisher_source, "takeover_policy": "latest_connection",
-            "checkpoint": os.getenv("REFRESH_CHECKPOINT"), "base_frames": engine.count,
+            "character": engine.assets.name, "characters": ["gentleman", "QinChe"],
+            "width": engine.manifest['width'], "height": engine.manifest['height'],
+            "checkpoint": str(engine.assets.checkpoint), "base_frames": engine.count,
             "release": release["release"], "checkpoint_sha256": release["checkpoint_sha256"],
             "idle_video_sha256": release["idle_video_sha256"],
-            "base_assets": os.getenv("REFRESH_BASE"), "teeth_assets": os.getenv("REFRESH_TEETH"),
-            "detail_assets": os.getenv("REFRESH_DETAIL"),
+            "base_assets": str(engine.assets.base), "teeth_assets": str(engine.assets.teeth),
+            "detail_assets": str(engine.assets.detail),
             "loop_mode": engine.manifest.get("loop_mode"),
             "duration_seconds": engine.count / 25,
             "frames_rendered": frames_rendered, "teeth_restored_frames": teeth_restored_frames,
