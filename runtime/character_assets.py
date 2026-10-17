@@ -15,7 +15,16 @@ class CharacterAssets:
         return self.name.lower()
 
     def path(self, field):
-        return Path('/work') / self.metadata[field]
+        value = self.metadata.get(field)
+        return Path('/work') / value if value else None
+
+    @property
+    def renderer(self):
+        return self.metadata['renderer']
+
+    @property
+    def settings(self):
+        return self.metadata['settings']
 
     @property
     def checkpoint(self):

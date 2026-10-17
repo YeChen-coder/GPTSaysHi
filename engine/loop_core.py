@@ -31,10 +31,6 @@ class LoopEngine(Engine):
         alpha[FACE_BORDER+6:152-FACE_BORDER-6,FACE_BORDER+6:152-FACE_BORDER-6]=1
         self.alpha=cv2.GaussianBlur(alpha,(19,19),4)[...,None]
         self.frame_alphas=None
-        if self.assets.key=='qinche':
-            from face_support import lower_face_support
-            landmarks=np.load(root/'landmarks.npy')
-            self.frame_alphas=[self.alpha*lower_face_support(points,box)[...,None] for points,box in zip(landmarks,self.bboxes)]
         self.begin(0)
         # Exercise the actual streaming input sizes using silence, outside
         # session timing. No future test audio is available during this step.
@@ -46,7 +42,7 @@ class LoopEngine(Engine):
         if (self.assets.teeth/'manifest.json').exists():
             from teeth_enhance import NewTeethRestorer
             self.teeth=NewTeethRestorer(self.assets.teeth)
-        self.detail_profile=os.getenv('FEATHERTALK_DETAIL_PROFILE','original').strip().lower()
+        self.detail_profile=os.getenv('FEATHERTALK_DETAIL_PROFILE',self.assets.settings['detail_profile']).strip().lower()
         if self.detail_profile not in ('original','model_idle'):raise ValueError('Unknown production detail profile')
         self.detail_filter=self.idle_appearance=None;self.detail_last_ms=0.
         if self.detail_profile=='model_idle':

@@ -1,0 +1,75 @@
+{
+  "passed": true,
+  "label": "qinche_native_speech_20261017",
+  "character": "QinChe",
+  "checkpoint_sha256": "7c44912c27f52ff84fdc632c63446d9a835c6aa1915c1ecb7d2a0251786feace",
+  "compositor": "NativeFaceMatch",
+  "release": "20261017-qinche-epoch100-natural01-native-face",
+  "settle_ms": 0,
+  "input": "Same local speech PCM, not a new Live call",
+  "timing": "First complete 100 ms packet send -> receipt / decoded image assignment followed by rAF; excludes capture, packet filling, model load and physical screen scanout",
+  "rounds": [
+    {
+      "round": 1,
+      "first_arrival_ms": 116.5,
+      "first_display_ms": 142,
+      "speech_frames": 40,
+      "settle_frames": 0,
+      "displayed_frames": 40
+    },
+    {
+      "round": 2,
+      "first_arrival_ms": 34.70000001788139,
+      "first_display_ms": 78.10000002384186,
+      "speech_frames": 40,
+      "settle_frames": 0,
+      "displayed_frames": 40
+    },
+    {
+      "round": 3,
+      "first_arrival_ms": 37.099999994039536,
+      "first_display_ms": 80.30000001192093,
+      "speech_frames": 40,
+      "settle_frames": 0,
+      "displayed_frames": 40
+    },
+    {
+      "round": 4,
+      "first_arrival_ms": 39.89999997615814,
+      "first_display_ms": 87.2999999821186,
+      "speech_frames": 40,
+      "settle_frames": 0,
+      "displayed_frames": 40
+    },
+    {
+      "round": 5,
+      "first_arrival_ms": 32.89999997615814,
+      "first_display_ms": 68.69999998807907,
+      "speech_frames": 40,
+      "settle_frames": 0,
+      "displayed_frames": 40
+    },
+    {
+      "round": 6,
+      "first_arrival_ms": 34.79999998211861,
+      "first_display_ms": 90.09999999403954,
+      "speech_frames": 40,
+      "settle_frames": 0,
+      "displayed_frames": 40
+    },
+    {
+      "round": 7,
+      "first_arrival_ms": 25.69999998807907,
+      "first_display_ms": 30,
+      "speech_frames": 40,
+      "settle_frames": 0,
+      "displayed_frames": 40
+    }
+  ],
+  "steady_first_arrival_median_ms": 34.75,
+  "steady_first_display_median_ms": 79.2000000178814,
+  "range_requests": true,
+  "continuous_indices": true,
+  "idle_handoff": true,
+  "errors": []
+}

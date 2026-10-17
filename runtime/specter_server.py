@@ -17,7 +17,8 @@ from frame_delivery import deliver_frames
 from engine_runtime import engine, lock
 
 MODE = os.getenv("FEATHERTALK_MODE", "fast").strip().lower()
-TEETH = os.getenv("FEATHERTALK_TEETH_MODE", "new").strip().lower()
+NATIVE = engine.assets.renderer == 'native_face'
+TEETH = 'model' if NATIVE else os.getenv("FEATHERTALK_TEETH_MODE", engine.assets.settings['teeth_mode']).strip().lower()
 BUFFER_MS = int(os.getenv("FEATHERTALK_BUFFER_MS", "100"))
 if MODE not in {"fast", "balanced", "quality"}:
     raise ValueError("SPECTER_FEATHERTALK_MODE must be fast, balanced or quality")
@@ -26,10 +27,10 @@ if TEETH not in {"model", "new"} or (TEETH == "new" and engine.teeth is None):
 if not 40 <= BUFFER_MS <= 1000:
     raise ValueError("SPECTER_FEATHERTALK_BUFFER_MS must be between 40 and 1000")
 BUFFER_BYTES = 24000 * BUFFER_MS // 1000 * 2
-SETTLE_MS = int(os.getenv("FEATHERTALK_SETTLE_MS", "320"))
-if not 80 <= SETTLE_MS <= 1000:
-    raise ValueError("SPECTER_FEATHERTALK_SETTLE_MS must be between 80 and 1000")
-SETTLE_FRAMES = max(2, round(SETTLE_MS / 40))
+SETTLE_MS = engine.assets.settings['settle_ms'] if NATIVE else int(os.getenv("FEATHERTALK_SETTLE_MS", str(engine.assets.settings['settle_ms'])))
+if (NATIVE and SETTLE_MS != 0) or (not NATIVE and not 80 <= SETTLE_MS <= 1000):
+    raise ValueError("Native QinChe uses direct idle handoff; gentleman settling must be 80..1000 ms")
+SETTLE_FRAMES = 0 if NATIVE else max(2, round(SETTLE_MS / 40))
 
 app = FastAPI()
 viewers = {}
@@ -72,12 +73,15 @@ def health():
             "buffer_ms": BUFFER_MS, "teeth_mode": TEETH,
             "source": publisher_source, "takeover_policy": "latest_connection",
             "character": engine.assets.name, "characters": ["gentleman", "QinChe"],
+            "compositor": 'NativeFaceMatch' if NATIVE else 'GentlemanDetailBalance',
+            "rendering_profile": engine.assets.renderer,
+            "unique_base_frames": len(engine.unique_frames) if NATIVE else engine.count,
             "width": engine.manifest['width'], "height": engine.manifest['height'],
             "checkpoint": str(engine.assets.checkpoint), "base_frames": engine.count,
             "release": release["release"], "checkpoint_sha256": release["checkpoint_sha256"],
             "idle_video_sha256": release["idle_video_sha256"],
-            "base_assets": str(engine.assets.base), "teeth_assets": str(engine.assets.teeth),
-            "detail_assets": str(engine.assets.detail),
+            "base_assets": str(engine.assets.base), "teeth_assets": None if NATIVE else str(engine.assets.teeth),
+            "detail_assets": None if NATIVE else str(engine.assets.detail),
             "loop_mode": engine.manifest.get("loop_mode"),
             "duration_seconds": engine.count / 25,
             "frames_rendered": frames_rendered, "teeth_restored_frames": teeth_restored_frames,
@@ -87,6 +91,11 @@ def health():
             "lookahead_frames": {"fast": 0, "balanced": 10, "quality": 25}[MODE],
             "model_load_seconds": engine.load_seconds,
             "stream_warmup_seconds": engine.stream_shape_warmup_seconds,
+            "native_match_last_ms": getattr(engine, 'native_match_last_ms', 0.),
+            "idle_handoff": 'direct_native' if NATIVE else 'matched_residual',
+            "frame_fade_ms": 0 if NATIVE else 80,
+            "resampler_lookahead_ms": 32 / 24,
+            "sample_rate": 24000, "inference_sample_rate": 16000,
             "error": last_error}
 
 
@@ -194,6 +203,9 @@ async def publish(ws: WebSocket):
         if source is None or source.last_image is None:
             await release("reset")
             return
+        if SETTLE_FRAMES == 0:
+            await release("reset" if interrupted else "idle")
+            return
         settling = IdleTransition(engine, source.last_index, source.last_image, SETTLE_FRAMES)
         session = None
         settle_next_at = time.monotonic()
@@ -260,8 +272,9 @@ async def publish(ws: WebSocket):
                                 await asyncio.wait_for(sync_event.wait(), timeout=.1)
                             except asyncio.TimeoutError:
                                 pass
+                    start_frame = requested_frame if requested_frame is not None else (engine.cursor if NATIVE else 0)
                     session = await asyncio.to_thread(
-                        RealtimeLoopSession, engine, MODE, requested_frame or 0, TEETH)
+                        RealtimeLoopSession, engine, MODE, start_frame, TEETH)
                     last_error = ""
                 pending.extend(packet[8:])
                 last_audio = time.monotonic()
@@ -334,4 +347,4 @@ async def view(ws: WebSocket):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8081, log_level="info")
+    uvicorn.run(app, host="0.0.0.0", port=8081, log_level="info", ws_per_message_deflate=False)

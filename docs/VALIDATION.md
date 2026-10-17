@@ -1,5 +1,54 @@
 # Standalone validation
 
+## Approved QinChe replacement — October 17, 2026
+
+The previous QinChe bundle is retired. Historical sections below do not select
+the current model or appearance. The October 17 approval handoff is implemented
+by the native rendering profile described in [ENGINEERING.md](ENGINEERING.md).
+
+- Checkpoint: clean random-start `epoch_100.pth`, SHA-256
+  `7c44912c27f52ff84fdc632c63446d9a835c6aa1915c1ecb7d2a0251786feace`.
+  The supplied 110-point NativeFaceMatch code is unchanged, SHA-256
+  `4c763464098d1a02e5668527c50ecc36575bf6709e452294d9e645da4bc06d60`.
+- Eleven runtime asset files are hash-verified. The resource archive is
+  515,751,094 bytes, SHA-256
+  `ec6c951c9924622b5e20cb4b700b443a847ee1f0885e528b5dd5181e8e2fcca9`.
+  The silent native idle is 500 frames / 20 seconds; its SHA-256 is
+  `929326af5c9aae2fd613e8a492aceb731c0963635c60e38ac60eb84e9059d8b7`.
+- Same supplied predictions, geometry and causal color history reproduced all
+  seven approved PNGs pixel-for-pixel. All 750 speech frames preserved protected
+  native pixels exactly before JPEG/MP4 encoding. This verifies composition,
+  not equivalence of live versus offline audio features.
+- Sixteen host distribution/control checks passed; four additional NumPy/OpenCV
+  compositor checks passed in the avatar image. Coverage includes the 500-to-251
+  source map, profile isolation, correct 110-point support, generated mouth
+  center, color-field history/reset, worker exceptions and joined cancellation.
+- The real viewer received 530 continuous speech frames across the 20-second
+  loop, both direction changes, seek/range/wrap, interruption, repeated speech
+  and publisher reconnection. Native QinChe has no generated settling frames or
+  viewer crossfade. There were no page errors.
+- Sixty seconds of wall-clock-paced held-out speech generated 1,500 frames with
+  continuous timeline indices. RSS was 1,919,748 KiB at each ten-second sample;
+  change from the 20-second sample to the final sample was zero. This is a
+  one-minute working-set check, not an hours-long soak test.
+- New-model timing used the held-out speech 12 PCM with 100 ms packets: seven
+  1.6-second trials. First trial receipt/display indicator: 116.5 / 142.0 ms;
+  median over the remaining six: 34.75 / 79.2 ms. Timing begins at the first
+  complete packet send and ends at receipt or decoded-image assignment followed
+  by rAF; it excludes upstream generation/capture, packet filling and physical
+  display scanout. This is a fresh measurement, not a reused Gentleman result.
+- Windows source takeover/native bridge shutdown and actual isolated Edge
+  155.0.4283.62 / Chrome 155.0.8059.80 capture passed. Browser fixtures were local;
+  no new signed-in ChatGPT Live call was made during these automated checks.
+- Gentleman retains its original checkpoint, teeth, matched chin and 400 ms
+  settling profile. Its separate regression also passed 530 speech frames plus
+  ten settling frames, both loop turns, interruption/resume and reconnection.
+  The standalone app stays on port 19088; the Specter service
+  and the approved comparison viewer on 19102 are not reconfigured by this work.
+
+The seven new-model trials are retained in
+[the October 17 benchmark record](benchmarks/qinche-native-20261017.json).
+
 ## Engineering audit — October 13, 2026
 
 - Compared Gentleman engineering records with the selected QinChe runtime;

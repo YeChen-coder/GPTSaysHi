@@ -25,12 +25,18 @@ This is a standalone project. No SpecterSaysHi checkout, prebuilt Specter image,
 OpenAI API key, or API session is required. ChatGPT still handles the conversation,
 account and voice allowance. GPTSaysHi does not start the Live call for you.
 
-The default avatar is **QinChe**, using the October 12, 2026 v14 checkpoint
-(best validation at epoch 22) and a 10-second forward/reverse idle loop:
-250 frames at 25 fps. The original **gentleman** remains available with its
-October 4 checkpoint and 20-second, 500-frame idle loop. Each character has
-its own base reference, teeth reference and matched chin cache. Speech audio
-always advances forward; the transition back to idle remains 400 ms.
+The default avatar is the **October 17 approved QinChe**: a clean epoch-100
+model, the selected natural-listening take 1 and **NativeFaceMatch** mouth-local
+composition. Its 251 unique native frames map to a 500-frame, 20-second
+forward/reverse timeline at 25 fps. Native nose, cheek and chin texture stays
+intact; the new profile uses no donor teeth, chin-cache overlay or sharpening.
+
+The original **gentleman** keeps its October 4 checkpoint, 500-frame idle,
+same-character teeth restoration, matched chin cache and 400 ms settling.
+These are separate rendering profiles. QinChe returns directly to its native
+idle as in the approved comparison, with no additional server settling frames
+or viewer crossfade. Speech audio always advances forward for both characters.
+The earlier October 12 QinChe bundle is retired and is no longer selectable.
 
 ## Select a character
 
@@ -60,8 +66,8 @@ The demo above shows the original gentleman avatar.
 - Docker Desktop with Linux containers, WSL 2 and NVIDIA GPU support.
 - An NVIDIA GPU with sufficient available memory. This version uses CUDA 12.1
   and was tested on a 12 GB GPU alongside other local services.
-- About 725 MB for QinChe's extracted assets, or 1.4 GB for gentleman,
-  plus the Docker image and Python environment. Keeping both uses about 2.1 GB.
+- About 679 MB for QinChe's extracted assets, or 1.4 GB for gentleman,
+  plus the Docker image and Python environment. Keeping both uses about 2 GB.
 
 The Windows capture helper compiles with the .NET Framework compiler already
 included with Windows. No audio driver installation is needed.
@@ -70,7 +76,7 @@ included with Windows. No audio driver installation is needed.
 
 Clone the repository, then run these commands in PowerShell:
 
-You can also download [**gptsayshi-windows-v0.2.1.zip**](https://github.com/YeChen-coder/GPTSaysHi/releases/tag/v0.2.1) and extract
+You can also download [**gptsayshi-windows-v0.3.0.zip**](https://github.com/YeChen-coder/GPTSaysHi/releases/tag/v0.3.0) and extract
 the `GPTSaysHi` folder. It includes the compiled Windows capture helper. The
 `Start ChatGPT.cmd`, `Start Classic.cmd`, `Start Browser.cmd`, and
 `Stop GPTSaysHi.cmd` shortcuts call the same scripts below. Python and Docker
@@ -84,15 +90,15 @@ cd GPTSaysHi
 
 Setup creates a private `.venv`, installs the audio bridge dependency, compiles
 the native audio helper and downloads the hash-pinned avatar resource archive
-from this repository's [v0.2.0 release](https://github.com/YeChen-coder/GPTSaysHi/releases/tag/v0.2.0)
+from this repository's [v0.3.0 release](https://github.com/YeChen-coder/GPTSaysHi/releases/tag/v0.3.0)
 for QinChe. Gentleman keeps its existing v0.1.0 asset archive. Large models and
 runtime media stay outside Git history; each character's manifest verifies every
-installed file. QinChe's download is about 541 MB and expands to about 725 MB.
+installed file. QinChe's download is about 516 MB and expands to about 679 MB.
 
 For an offline installation, download the archive separately and run:
 
 ```powershell
-python .\assets.py --character QinChe --archive C:\Downloads\gptsayshi-qinche-20261012.zip
+python .\assets.py --character QinChe --archive C:\Downloads\gptsayshi-qinche-approved-20261017.zip
 .\setup.ps1
 ```
 
@@ -173,8 +179,11 @@ Audio is copied after ChatGPT plays it, then sent in 100 ms packets as 24 kHz
 mono PCM16. The bridge retains 200 ms of leading audio and two trailing packets.
 Inference uses bounded history and the fast mode without audio lookahead.
 The bridge sends each generated frame immediately, including final audio
-flushes. GPU reference caching, streaming warmup, CPU thread limits, bounded
-queues, matched idle and settling apply to both characters. See the
+flushes through a two-frame bounded worker queue. GPU reference caching,
+streaming warmup, CPU thread limits and bounded history/queues apply to both
+characters. Appearance and return-to-idle behavior are selected per character.
+The continuous resampler retains about 1.33 ms of input for its FIR filter;
+fast mode adds no future-feature waiting. See the
 [engineering audit and measured comparison](docs/ENGINEERING.md).
 ChatGPT playback and avatar display do not share a synchronized playback clock;
 end-to-end lip-sync latency has not been measured precisely.
@@ -203,6 +212,15 @@ node .\tests\integration_extension.cjs chrome
 Browser integration checks use isolated, unsigned-in profiles and local fixtures,
 not the user's browsing profile or a real ChatGPT call. See
 [validation notes](docs/VALIDATION.md) and [third-party notices](THIRD_PARTY_NOTICES.md).
+
+The compositor's four CPU image checks require NumPy/OpenCV (already in the
+avatar image). The remaining distribution checks also run in the host bridge
+environment. Optional viewer/long-stream checks are:
+
+```powershell
+node .\tests\integration_avatar.cjs
+python .\tests\integration_long_stream.py
+```
 
 ## Project layout
 

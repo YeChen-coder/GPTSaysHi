@@ -1,4 +1,5 @@
 import json
+import hashlib
 import os
 import shutil
 import tempfile
@@ -32,16 +33,29 @@ class CharacterSelection(unittest.TestCase):
             selected = select_character(name)
             manifest = json.loads((ROOT / selected['manifest']).read_text())['files']
             checkpoint = manifest['assets/' + selected['checkpoint']]
-            idle = manifest['assets/' + selected['detail'] + '/idle.mp4']
+            idle_root = selected['base'] if selected['renderer'] == 'native_face' else selected['detail']
+            idle = manifest['assets/' + idle_root + '/idle.mp4']
             self.assertEqual(checkpoint['sha256'], selected['checkpoint_sha256'])
             self.assertEqual(idle['sha256'], selected['idle_video_sha256'])
             for field in ('image', 'landmarks'):
                 self.assertIn('assets/' + selected[field], manifest)
-            for field in ('base', 'teeth', 'detail'):
+            for field in (('base',) if selected['renderer'] == 'native_face' else ('base', 'teeth', 'detail')):
                 self.assertIn('assets/' + selected[field] + '/manifest.json', manifest)
             self.assertIn('assets/feather_hubert.pth', manifest)
         self.assertEqual(catalog['default'], 'QinChe')
         self.assertNotEqual(select_character('gentleman')['checkpoint'], select_character('QinChe')['checkpoint'])
+
+    def test_qinche_approved_appearance_is_isolated_from_gentleman(self):
+        qinche, gentleman = select_character('QinChe'), select_character('gentleman')
+        self.assertEqual(qinche['renderer'], 'native_face')
+        self.assertEqual(qinche['settings'], {'teeth_mode': 'model', 'detail_profile': 'original', 'settle_ms': 0})
+        self.assertEqual(gentleman['settings'], {'teeth_mode': 'new', 'detail_profile': 'model_idle', 'settle_ms': 400})
+        self.assertNotIn('teeth', qinche)
+        self.assertNotIn('detail', qinche)
+        self.assertIn('epoch_100.pth', qinche['checkpoint'])
+        self.assertEqual(qinche['checkpoint_sha256'], '7c44912c27f52ff84fdc632c63446d9a835c6aa1915c1ecb7d2a0251786feace')
+        compositor = (ROOT / 'runtime/native_face_match.py').read_bytes().replace(b'\r\n', b'\n')
+        self.assertEqual(hashlib.sha256(compositor).hexdigest(), qinche['compositor_sha256'])
 
     def test_verification_uses_only_the_selected_manifest(self):
         with tempfile.TemporaryDirectory() as directory:

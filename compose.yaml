@@ -11,9 +11,6 @@ services:
       FEATHERTALK_CHARACTER: ${GPTSAYSHI_CHARACTER:-QinChe}
       FEATHERTALK_MODE: fast
       FEATHERTALK_BUFFER_MS: "100"
-      FEATHERTALK_TEETH_MODE: new
-      FEATHERTALK_SETTLE_MS: "400"
-      FEATHERTALK_DETAIL_PROFILE: model_idle
     volumes:
       - ./assets:/work:ro
     ports:

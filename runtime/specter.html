@@ -36,6 +36,7 @@
     let transition = 0;
     let previousUrl = null;
     let rendering = false;
+    let frameFadeMs = 80;
     document.body.dataset.mode = 'idle';
     const frameCount = () => Math.max(1, Math.round((idle.duration || 30.08) * fps));
 
@@ -55,7 +56,7 @@
       const token = ++transition;
       const reveal = () => {
         if (token !== transition) return;
-        image.style.transitionDuration = '80ms';
+        image.style.transitionDuration = `${frameFadeMs}ms`;
         image.style.opacity = '0';
         document.body.dataset.mode = 'idle';
         status.textContent = 'Waiting for Realtime audio';
@@ -88,7 +89,7 @@
       shownIndex = -1;
       pendingIndex = -1;
       pendingPhase = 'speaking';
-      image.style.transitionDuration = '80ms';
+      image.style.transitionDuration = `${frameFadeMs}ms`;
       image.style.opacity = '0';
       document.body.dataset.mode = 'speaking';
       idle.pause();
@@ -193,7 +194,9 @@
     }, 40);
 
     idle.play().catch(() => {});
-    connect();
+    fetch('/health').then(response => response.json()).then(state => {
+      frameFadeMs = state.frame_fade_ms ?? 80;
+    }).catch(() => {}).finally(connect);
   })();
   </script>
 </body>

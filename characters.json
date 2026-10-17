@@ -12,18 +12,29 @@
       "image": "data/base.jpg",
       "landmarks": "data/base.lms",
       "manifest": "assets-manifest.json",
-      "bundle": "asset-bundle.json"
+      "bundle": "asset-bundle.json",
+      "renderer": "legacy_detail",
+      "settings": {
+        "teeth_mode": "new",
+        "detail_profile": "model_idle",
+        "settle_ms": 400
+      }
     },
     "QinChe": {
-      "release": "20261012-qinche-v14-epoch22",
-      "checkpoint_sha256": "3940a2fc552570e35190e783f408d7e24db239f3c56a436c98ed3263ada94daf",
-      "idle_video_sha256": "39630990c8f18e8489ddbd58776ae53f68fd81915aece644808456119398139f",
-      "checkpoint": "characters/qinche/checkpoints/retrain_20261012/best.pth",
-      "base": "characters/qinche/data/loop_base",
-      "teeth": "characters/qinche/data/teeth_20260930",
-      "detail": "characters/qinche/data/detail_balance",
-      "image": "characters/qinche/data/base.jpg",
-      "landmarks": "characters/qinche/data/base.lms",
+      "release": "20261017-qinche-epoch100-natural01-native-face",
+      "renderer": "native_face",
+      "checkpoint": "characters/qinche_native_20261017/checkpoints/epoch_100.pth",
+      "checkpoint_sha256": "7c44912c27f52ff84fdc632c63446d9a835c6aa1915c1ecb7d2a0251786feace",
+      "idle_video_sha256": "929326af5c9aae2fd613e8a492aceb731c0963635c60e38ac60eb84e9059d8b7",
+      "base": "characters/qinche_native_20261017/data/loop_base",
+      "image": "characters/qinche_native_20261017/data/base.jpg",
+      "landmarks": "characters/qinche_native_20261017/data/base.lms",
+      "compositor_sha256": "4c763464098d1a02e5668527c50ecc36575bf6709e452294d9e645da4bc06d60",
+      "settings": {
+        "teeth_mode": "model",
+        "detail_profile": "original",
+        "settle_ms": 0
+      },
       "manifest": "assets-manifest-qinche.json",
       "bundle": "asset-bundle-qinche.json"
     }

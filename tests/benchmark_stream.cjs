@@ -75,7 +75,8 @@ const median=values=>{const sorted=[...values].sort((a,b)=>a-b),middle=Math.floo
   }
   await page.screenshot({path:path.join(output,'returned_idle.png')});
   assert.deepEqual(errors,[]);
-  const report={passed:true,label,character:health.character,checkpoint_sha256:health.checkpoint_sha256,
+ const report={passed:true,label,character:health.character,checkpoint_sha256:health.checkpoint_sha256,
+   compositor:health.compositor,release:health.release,settle_ms:health.settle_ms,
    input:pcmPath?'Same local speech PCM, not a new Live call':'Generated local tone fixture',
    timing:'First complete 100 ms packet send -> receipt / decoded image assignment followed by rAF; excludes capture, packet filling, model load and physical screen scanout',
    rounds,steady_first_arrival_median_ms:median(rounds.slice(1).map(row=>row.first_arrival_ms)),

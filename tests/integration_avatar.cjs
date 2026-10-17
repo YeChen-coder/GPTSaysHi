@@ -9,7 +9,11 @@ const source=process.argv[2]?fs.readFileSync(process.argv[2]):Buffer.from(new In
 async function stream(ws,seconds){
  const started=Date.now();
  for(let offset=0;offset<seconds*48000;offset+=4800){
-  const part=source.subarray(offset%source.length,offset%source.length+4800);
+  const part=Buffer.alloc(4800);
+  for(let copied=0;copied<part.length;){
+   const position=(offset+copied)%source.length,count=Math.min(source.length-position,part.length-copied);
+   source.copy(part,copied,position,position+count);copied+=count;
+  }
   const packet=Buffer.alloc(8+part.length);packet.writeDoubleLE(Date.now());part.copy(packet,8);ws.send(packet);
   await sleep(Math.max(0,started+(offset+part.length)/48-Date.now()));
  }
@@ -39,19 +43,27 @@ async function stream(ws,seconds){
   }});
   publisher=await connect();
   const start=frames.length,seconds=before.duration_seconds+1.2;
-  await stream(publisher,seconds);await idle();
+  const playback=stream(publisher,seconds);
+  await page.waitForFunction(()=>document.body.dataset.mode==='speaking'&&document.getElementById('frame').naturalWidth>0);
+  await page.screenshot({path:path.join(output,'speaking.png')});
+  await playback;await idle();
   const complete=frames.slice(start),speech=complete.filter(frame=>!frame.phase),tail=complete.filter(frame=>frame.phase==='settling');
   assert.equal(speech.length,Math.round(seconds*25));assert.equal(tail.length,before.settle_ms/40);
   assert(complete.every((frame,i)=>!i||frame.index===(complete[i-1].index+1)%before.base_frames));
   assert(speech.some(frame=>frame.index===0)&&speech.some(frame=>frame.index===Math.floor(before.base_frames/2)));
-  assert.equal(Number(await page.evaluate(()=>document.body.dataset.handoffIndex)),tail.at(-1).index);
+  assert.equal(Number(await page.evaluate(()=>document.body.dataset.handoffIndex)),complete.at(-1).index);
   await page.screenshot({path:path.join(output,'returned_idle.png')});
   await stream(publisher,.8);publisher.send('{"type":"reset"}');await idle();
   const controlsStart=controls.length;
   await stream(publisher,.8);
-  await page.waitForFunction(()=>document.body.dataset.mode==='settling',{}, {timeout:5000});
-  await stream(publisher,.8);await idle();
-  assert(controls.slice(controlsStart).some(control=>control.type==='resume'));
+  if(before.settle_ms>0){
+   await page.waitForFunction(()=>document.body.dataset.mode==='settling',{}, {timeout:5000});
+   await stream(publisher,.8);await idle();
+   assert(controls.slice(controlsStart).some(control=>control.type==='resume'));
+  }else{
+   await idle();await stream(publisher,.8);await idle();
+   assert(!controls.slice(controlsStart).some(control=>control.type==='settling'));
+  }
   publisher.close();await sleep(600);
   publisher=await connect();const restart=frames.length;await stream(publisher,.8);await idle();
   assert.equal(frames.length-restart,20+before.settle_ms/40);
@@ -60,7 +72,8 @@ async function stream(ws,seconds){
   assert(!after.error&&!after.publisher&&!after.speech_active);assert.deepEqual(errors,[]);
   const report={passed:true,character:after.character,range_requests:true,idle_seek_and_wrap:true,
    speech_frames:speech.length,settle_frames:tail.length,continuous_indices:true,both_loop_turns:true,
-   interruption:true,resume_during_settle:true,repeated_speech:true,publisher_reconnect:true,errors,health:after};
+   interruption:true,resume_during_settle:before.settle_ms>0,repeated_speech:true,publisher_reconnect:true,
+   handoff:before.idle_handoff,errors,health:after};
   fs.writeFileSync(path.join(output,'report.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report));
  }finally{publisher?.close();viewer?.close();await browser.close()}
 })().catch(error=>{console.error(error);process.exitCode=1});
