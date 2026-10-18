@@ -283,3 +283,10 @@ bridge.py             Desktop audio forwarding and source replacement
 这是一个分析对比图：
 <img width="1000" height="1370" alt="image" src="https://github.com/user-attachments/assets/1d522adf-9d68-4e07-89de-02c9421026c1" />
 
+事情到这儿其实有两个解决方案：
+
+1. 看 FeatherTalk 这个模型能不能生成更高分辨率的内容。在我当前计算资源还能支撑的情况下，这肯定是最理想的方向。但它受限于本身的预训练，而我现在的训练基本都是 fine-tuning，不可能达到原作者的训练量，那得消耗多少 GPU 和 resources 呀。我确实不太想把自己的手弄得太脏，尽量去摘 low-hanging fruit 算了。毕竟这种技术每半年就出一个新里程碑，折腾半天，没过几个月新一代又来了。“现实世界一天，AI 世界一年”，真没必要钻牛角尖，陷得太深。我要的是最终效果，又不是去做 machine learning 本身，只是想要一个像产品一样的结果（虽然现阶段主要还是做给自己用的）。所以这条路目前先不打算搞了。
+   
+2. 把之前的底图处理一下，缩小一点让它能对上，再重新根据 prompt 生成视频、重新训。这显然更简单直接。
+
+行吧，先走第二条路看看。唉，烦死了
