@@ -24,8 +24,6 @@ The preview shows an 8-second excerpt and has no sound.
 
 ## What runs locally
 
-![QinChe avatar](docs/screenshots/qinche.jpg)
-
 GPTSaysHi connects the playback audio from a normal ChatGPT Live conversation
 to a FeatherTalk avatar. Use the ChatGPT desktop app, ChatGPT Classic, or one
 selected ChatGPT tab in Edge or Chrome. The newest connection replaces the
