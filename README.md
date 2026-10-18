@@ -306,3 +306,11 @@ bridge.py             Desktop audio forwarding and source replacement
 <img width="1152" height="1728" alt="qinche_new_base" src="https://github.com/user-attachments/assets/fc70e792-30fe-4c5b-8366-fdce2ff6c741" />
 
 先跑着再看吧
+
+讲个笑话，这是生成底图过程中的废作品（捂脸）：
+
+<img width="1152" height="1728" alt="grok-image-b51e8b56-027d-45b4-ad9a-b125ec3ad508" src="https://github.com/user-attachments/assets/89fcc3e8-4e01-45a8-a51d-2a7af032aab9" />
+
+
+---
+
