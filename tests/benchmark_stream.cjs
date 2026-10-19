@@ -18,7 +18,7 @@ const median=values=>{const sorted=[...values].sort((a,b)=>a-b),middle=Math.floo
   window.timing={sent:null,received:[],displayed:[],controls:[]};
   const Original=window.WebSocket;
   window.WebSocket=class extends Original {
-   constructor(...args){super(...args);if(String(args[0]).endsWith('/view')){
+   constructor(...args){super(...args);if(String(args[0]).includes('/view')){
     let control=null;
     this.addEventListener('message',event=>{
      if(typeof event.data==='string'){

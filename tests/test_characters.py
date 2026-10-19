@@ -52,8 +52,8 @@ class CharacterSelection(unittest.TestCase):
         self.assertEqual(gentleman['settings'], {'teeth_mode': 'new', 'detail_profile': 'model_idle', 'settle_ms': 400})
         self.assertNotIn('teeth', qinche)
         self.assertNotIn('detail', qinche)
-        self.assertIn('epoch_100.pth', qinche['checkpoint'])
-        self.assertEqual(qinche['checkpoint_sha256'], '7c44912c27f52ff84fdc632c63446d9a835c6aa1915c1ecb7d2a0251786feace')
+        self.assertIn('epoch_115.pth', qinche['checkpoint'])
+        self.assertEqual(qinche['checkpoint_sha256'], '007975c1ecda2870144d3f150e4c98d3caab1ee422045d904213a457052730b7')
         compositor = (ROOT / 'runtime/native_face_match.py').read_bytes().replace(b'\r\n', b'\n')
         self.assertEqual(hashlib.sha256(compositor).hexdigest(), qinche['compositor_sha256'])
 

@@ -23,12 +23,16 @@ def rss_kib():
 
 async def run(seconds,source):
     before=health();assert before['ok'] and not before['publisher']
-    frames=[];idle=asyncio.Event();memory=[]
-    async with websockets.connect('ws://127.0.0.1:19088/view',max_size=None) as viewer:
+    frames=[];controls=[];idle=asyncio.Event();memory=[];memory_tasks=[];sent_times=[]
+    async def sample_memory(seconds):
+        value=await asyncio.to_thread(rss_kib)
+        memory.append({"seconds":seconds,"rss_kib":value})
+    async with websockets.connect('ws://127.0.0.1:19088/view?protocol=2',max_size=None) as viewer:
         async def read():
             async for message in viewer:
                 if isinstance(message,str):
                     item=json.loads(message)
+                    if item['type']!='frame':controls.append(item)
                     if item['type']=='start':await viewer.send('{"type":"sync","frame":0}')
                     elif item['type']=='frame':frames.append(item)
                     elif item['type']=='idle':idle.set()
@@ -43,22 +47,28 @@ async def run(seconds,source):
                     position=(start+len(raw))%len(source)
                     raw.extend(source[position:position+min(4800-len(raw),len(source)-position)])
                 await publisher.send(struct.pack('<d',time.time()*1000)+raw)
+                sent_times.append(time.monotonic())
                 if packet%100==99:
-                    memory.append({'seconds':(packet+1)/10,'rss_kib':await asyncio.to_thread(rss_kib)})
+                    # Memory sampling must never pause the wall-clock audio publisher.
+                    memory_tasks.append(asyncio.create_task(sample_memory((packet+1)/10)))
                 await asyncio.sleep(max(0,started+(packet+1)/10-time.monotonic()))
             await asyncio.wait_for(idle.wait(),10)
+            await asyncio.gather(*memory_tasks)
         reader.cancel()
         try:await reader
         except asyncio.CancelledError:pass
     after=health()
     speech=[item for item in frames if not item.get('phase')]
-    assert len(speech)==seconds*25,(len(speech),seconds*25)
+    diagnostics={'actual_speech_frames':len(speech),'expected_frames':seconds*25,'controls':controls,'rss_samples':memory,'packet_gap_max_ms':max((b-a)*1000 for a,b in zip(sent_times,sent_times[1:]))}
+    output=ROOT/'results/long_stream';output.mkdir(parents=True,exist_ok=True)
+    (output/'diagnostics.json').write_text(json.dumps(diagnostics,indent=2))
+    assert len(speech)==seconds*25,(len(speech),seconds*25,diagnostics)
     assert all(item['index']==index%before['base_frames'] for index,item in enumerate(speech))
     assert not after['error'] and not after['speech_active']
     steady=[row['rss_kib'] for row in memory if row['seconds']>=before['duration_seconds']]
     assert len(steady)>=2 and steady[-1]-steady[0]<64*1024,memory
     report={'passed':True,'seconds':seconds,'speech_frames':len(speech),'continuous_indices':True,
-            'rss_samples':memory,'steady_rss_change_kib':steady[-1]-steady[0],
+            'rss_samples':memory,'packet_gap_max_ms':diagnostics['packet_gap_max_ms'],'steady_rss_change_kib':steady[-1]-steady[0],
             'measurement':'RSS after one complete idle-reference cycle versus final sample; one-minute check, not an hours-long soak test',
             'health':after}
     output=ROOT/'results/long_stream';output.mkdir(parents=True,exist_ok=True)

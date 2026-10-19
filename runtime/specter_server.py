@@ -14,6 +14,7 @@ from realtime_session import RealtimeLoopSession
 from idle_transition import IdleTransition
 from streaming_resampler import StreamingResampler24To16
 from frame_delivery import deliver_frames
+from frame_encoding import encode_frame, frame_metadata
 from engine_runtime import engine, lock
 
 MODE = os.getenv("FEATHERTALK_MODE", "fast").strip().lower()
@@ -49,6 +50,8 @@ teeth_restored_frames = 0
 settle_frames_rendered = 0
 last_error = ""
 release = engine.assets.metadata
+timeline_anchor = 0
+timeline_anchor_at = time.monotonic()
 
 
 @app.get("/")
@@ -75,6 +78,10 @@ def health():
             "character": engine.assets.name, "characters": ["gentleman", "QinChe"],
             "compositor": 'NativeFaceMatch' if NATIVE else 'GentlemanDetailBalance',
             "rendering_profile": engine.assets.renderer,
+            "frame_transport": 'mouth_png' if NATIVE else 'full_jpeg', "viewer_protocol": 2,
+            "native_background_layer": 'continuous_video' if NATIVE else 'full_frame',
+            "idle_color_space": engine.manifest.get('color_space'),
+            "selected_epoch": release.get('selected_epoch'), "idle_name": release.get('idle_name'),
             "unique_base_frames": len(engine.unique_frames) if NATIVE else engine.count,
             "width": engine.manifest['width'], "height": engine.manifest['height'],
             "checkpoint": str(engine.assets.checkpoint), "base_frames": engine.count,
@@ -125,13 +132,11 @@ def infer_frames(session, raw, final=False):
     pcm = np.frombuffer(raw, dtype="<i2").astype(np.float32) / 32768.0
     restored_before = session.teeth_restored_frames
     for index, image in session.push(pcm, final):
-        ok, jpeg = cv2.imencode(".jpg", image, [cv2.IMWRITE_JPEG_QUALITY, 95])
-        if not ok:
-            raise RuntimeError("FeatherTalk JPEG encoding failed")
+        encoded = encode_frame(engine,index,image,NATIVE)
         frames_rendered += 1
         teeth_restored_frames += session.teeth_restored_frames - restored_before
         restored_before = session.teeth_restored_frames
-        yield index, jpeg.tobytes()
+        yield index, encoded
 
 
 def infer_settle(transition):
@@ -182,7 +187,10 @@ async def publish(ws: WebSocket):
 
     async def release(control="idle"):
         nonlocal session, owned, last_audio, settling
-        global active, latest
+        global active, latest, timeline_anchor, timeline_anchor_at
+        if active:
+            timeline_anchor=engine.cursor
+            timeline_anchor_at=time.monotonic()
         session = None
         settling = None
         pending.clear()
@@ -228,7 +236,7 @@ async def publish(ws: WebSocket):
             global latest
             index, image = frame
             latest = (index, image)
-            await broadcast({"type": "frame", "index": index}, image)
+            await broadcast(frame_metadata(engine,index,NATIVE), image)
         await deliver_frames(infer_frames(session, raw, final), send_frame)
 
     try:
@@ -264,7 +272,7 @@ async def publish(ws: WebSocket):
                         owned = True
                         active = True
                         latest = None
-                        requested_frame = None
+                        requested_frame = ((timeline_anchor+int((time.monotonic()-timeline_anchor_at)*25))%engine.count) if NATIVE else None
                         sync_event.clear()
                         await broadcast({"type": "start"})
                         if viewers:
@@ -284,7 +292,7 @@ async def publish(ws: WebSocket):
                 converted = resampler.push_pcm(bytes(pending))
                 pending.clear()
                 await render(converted)
-            if session is not None and time.monotonic() - last_audio > .24:
+            if session is not None and event is None and time.monotonic() - last_audio > .24:
                 await render(resampler.finish(), final=True)
                 await begin_settle()
             if settling is not None and time.monotonic() >= settle_next_at:
@@ -323,20 +331,23 @@ async def publish(ws: WebSocket):
 async def view(ws: WebSocket):
     global requested_frame
     await ws.accept()
+    if NATIVE and ws.query_params.get('protocol') != '2':
+        await ws.close(code=1008,reason='Refresh viewer for mouth-only transport')
+        return
     viewers[ws] = asyncio.Lock()
     try:
         await send(ws, [{"type": "source", "source": publisher_source}])
         if active:
             await send(ws, [{"type": "start"}])
             if latest is not None:
-                await send(ws, [{"type": "frame", "index": latest[0]}, latest[1]])
+                await send(ws, [frame_metadata(engine,latest[0],NATIVE), latest[1]])
         while True:
             event = await ws.receive()
             if event["type"] == "websocket.disconnect":
                 break
             if event.get("text"):
                 control = json.loads(event["text"])
-                if control.get("type") == "sync" and isinstance(control.get("frame"), int):
+                if control.get("type") == "sync" and isinstance(control.get("frame"), int) and not sync_event.is_set():
                     requested_frame = max(0, control["frame"]) % engine.count
                     sync_event.set()
     except (WebSocketDisconnect, RuntimeError, json.JSONDecodeError):

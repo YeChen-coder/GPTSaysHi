@@ -1,6 +1,17 @@
 # Standalone validation
 
-## Approved QinChe replacement — October 17, 2026
+## Current QinChe - October 19, 2026
+
+The approved epoch-115 new-base model and relaxed waiting take 2 now replace the
+October 17 profile. QinChe uses transparent mouth PNGs over continuously visible
+native video with explicit BT.709 signaling. Details, timing, color checks and
+resource identities are in [the current migration record](QINCHE-20261019.md).
+
+The following sections preserve older validation; their models and performance
+numbers do not describe the current default.
+
+
+## Historical QinChe replacement — October 17, 2026
 
 The previous QinChe bundle is retired. Historical sections below do not select
 the current model or appearance. The October 17 approval handoff is implemented

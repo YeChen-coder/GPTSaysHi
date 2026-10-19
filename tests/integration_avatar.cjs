@@ -37,7 +37,7 @@ async function stream(ws,seconds){
   }));
   await page.locator('#idle-video').evaluate(video=>video.play());
   await page.waitForFunction(()=>document.getElementById('idle-video').currentTime<1,{}, {timeout:3000});
-  viewer=new WebSocket('ws://127.0.0.1:19088/view');await opened(viewer);
+  viewer=new WebSocket('ws://127.0.0.1:19088/view?protocol=2');await opened(viewer);
   viewer.addEventListener('message',event=>{if(typeof event.data==='string'){
    const control=JSON.parse(event.data);(control.type==='frame'?frames:controls).push(control);
   }});

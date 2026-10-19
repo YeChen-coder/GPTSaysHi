@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "character": "QinChe",
+  "release": "20261019-qinche-epoch115-waiting-mouth-png",
+  "same_native_frame": 50,
+  "outside_mouth_changed_pixels": 0,
+  "outside_mouth_max_difference": 0,
+  "inside_changed_pixels": 1892,
+  "transport": "mouth_png",
+  "errors": []
+}

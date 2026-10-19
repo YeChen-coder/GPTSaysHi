@@ -1,5 +1,6 @@
 """Approved QinChe rendering: native face, mapped moving references, local mouth."""
 import json
+import hashlib
 import time
 from pathlib import Path
 
@@ -8,7 +9,7 @@ import numpy as np
 import torch
 
 from character_assets import character_assets
-from face_utils import crop_face, extract_inner, mask_mouth, reshape_audio_feat
+from face_utils import crop_face, extract_inner, mask_mouth, reshape_audio_feat, hwc_to_chw_tensor
 from native_face_match import NativeFaceMatch
 from stream_core import Engine
 from timeline import TimelineFrames
@@ -20,6 +21,10 @@ class NativeLoopEngine(Engine):
         if self.assets.renderer != 'native_face':
             raise ValueError('NativeLoopEngine requires the native_face character profile')
         self.checkpoint_path = self.assets.checkpoint
+        for path, expected in [(self.checkpoint_path, self.assets.metadata['checkpoint_sha256']),
+                               (self.assets.base/'idle.mp4', self.assets.metadata['idle_video_sha256'])]:
+            if hashlib.sha256(path.read_bytes()).hexdigest() != expected:
+                raise ValueError('Selected QinChe asset hash mismatch: '+str(path))
         super().__init__(checkpoint=str(self.checkpoint_path), base_image=self.assets.image,
                          base_landmarks=self.assets.landmarks)
         torch.set_num_threads(1)
@@ -38,9 +43,9 @@ class NativeLoopEngine(Engine):
         self.bboxes = self.unique_bboxes[self.source_indices]
         self.references = np.asarray([extract_inner(crop_face(frame, tuple(box)))
                                       for frame, box in zip(self.unique_frames, self.unique_bboxes)])
-        masked = np.asarray([mask_mouth(reference.copy()) for reference in self.references])
-        inputs = np.concatenate([self.references.transpose(0, 3, 1, 2), masked.transpose(0, 3, 1, 2)], axis=1)
-        self.model_inputs = (torch.from_numpy(inputs).to(self.device).float() / 255).contiguous()
+        # Match the accepted epoch115 exporter: normalize FP32 on CPU, then cache on GPU.
+        self.model_inputs = torch.stack([torch.cat([hwc_to_chw_tensor(r.copy()),
+            hwc_to_chw_tensor(mask_mouth(r.copy()))],0) for r in self.references]).contiguous().to(self.device)
         self.matcher = NativeFaceMatch()
         self.prepared = [self.matcher.prepare(frame, points, box)
                          for frame, points, box in zip(self.unique_frames, self.landmarks, self.unique_bboxes)]

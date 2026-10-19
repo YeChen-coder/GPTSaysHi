@@ -33,8 +33,8 @@ This is a standalone project. No SpecterSaysHi checkout, prebuilt Specter image,
 OpenAI API key, or API session is required. ChatGPT still handles the conversation,
 account and voice allowance. GPTSaysHi does not start the Live call for you.
 
-The default avatar is the **October 17 approved QinChe**: a clean epoch-100
-model, the selected natural-listening take 1 and **NativeFaceMatch** mouth-local
+The default avatar is the **October 19 approved QinChe**: the selected epoch-115
+model trained on the wider base, with relaxed waiting take 2 and **NativeFaceMatch** mouth-local
 composition. Its 251 unique native frames map to a 500-frame, 20-second
 forward/reverse timeline at 25 fps. Native nose, cheek and chin texture stays
 intact; the new profile uses no donor teeth, chin-cache overlay or sharpening.
@@ -44,7 +44,10 @@ same-character teeth restoration, matched chin cache and 400 ms settling.
 These are separate rendering profiles. QinChe returns directly to its native
 idle as in the approved comparison, with no additional server settling frames
 or viewer crossfade. Speech audio always advances forward for both characters.
-The earlier October 12 QinChe bundle is retired and is no longer selectable.
+The earlier October 12 and October 17 QinChe bundles are retired and are no longer selectable.
+QinChe now sends only transparent mouth PNGs over its continuously visible
+native video, avoiding whole-frame color changes when speech starts or stops.
+The idle video has explicit BT.709 color signaling. Refresh the viewer after upgrading.
 
 ## Select a character
 
@@ -74,7 +77,7 @@ The demo above shows the original gentleman avatar.
 - Docker Desktop with Linux containers, WSL 2 and NVIDIA GPU support.
 - An NVIDIA GPU with sufficient available memory. This version uses CUDA 12.1
   and was tested on a 12 GB GPU alongside other local services.
-- About 679 MB for QinChe's extracted assets, or 1.4 GB for gentleman,
+- About 685 MB for QinChe's extracted assets, or 1.4 GB for gentleman,
   plus the Docker image and Python environment. Keeping both uses about 2 GB.
 
 The Windows capture helper compiles with the .NET Framework compiler already
@@ -84,7 +87,7 @@ included with Windows. No audio driver installation is needed.
 
 Clone the repository, then run these commands in PowerShell:
 
-You can also download [**gptsayshi-windows-v0.3.0.zip**](https://github.com/YeChen-coder/GPTSaysHi/releases/tag/v0.3.0) and extract
+You can also download [**gptsayshi-windows-v0.4.0.zip**](https://github.com/YeChen-coder/GPTSaysHi/releases/tag/v0.4.0) and extract
 the `GPTSaysHi` folder. It includes the compiled Windows capture helper. The
 `Start ChatGPT.cmd`, `Start Classic.cmd`, `Start Browser.cmd`, and
 `Stop GPTSaysHi.cmd` shortcuts call the same scripts below. Python and Docker
@@ -98,15 +101,15 @@ cd GPTSaysHi
 
 Setup creates a private `.venv`, installs the audio bridge dependency, compiles
 the native audio helper and downloads the hash-pinned avatar resource archive
-from this repository's [v0.3.0 release](https://github.com/YeChen-coder/GPTSaysHi/releases/tag/v0.3.0)
+from this repository's [v0.4.0 release](https://github.com/YeChen-coder/GPTSaysHi/releases/tag/v0.4.0)
 for QinChe. Gentleman keeps its existing v0.1.0 asset archive. Large models and
 runtime media stay outside Git history; each character's manifest verifies every
-installed file. QinChe's download is about 516 MB and expands to about 679 MB.
+installed file. QinChe's download is about 521 MB and expands to about 685 MB.
 
 For an offline installation, download the archive separately and run:
 
 ```powershell
-python .\assets.py --character QinChe --archive C:\Downloads\gptsayshi-qinche-approved-20261017.zip
+python .\assets.py --character QinChe --archive C:\Downloads\gptsayshi-qinche-epoch115-waiting-20261019.zip
 .\setup.ps1
 ```
 
