@@ -310,6 +310,14 @@ bridge.py             Desktop audio forwarding and source replacement
 
 先跑着再看吧
 
+---
+
+补充一下：Syles 那边其实已经搞好了，我只是当时没放在这里面说而已。
+
+下一步最需要干的其实是把耦合剥出来。当前这个模型实在是太乱了，我手上已经有 3 个成熟且训练好的模型，但现在只放了两个；再加上每一个工程优化都得单独给它做，因为你不知道脸那边又会出什么状况。
+
+其实下一步就是把这些训练好的模型，以标准化的形式去解耦合出来。现在太忙了，这事还没干，等这周四或者周五再弄吧
+
 讲个笑话，这是生成底图过程中的废作品（捂脸）：
 
 <img width="1152" height="1728" alt="grok-image-b51e8b56-027d-45b4-ad9a-b125ec3ad508" src="https://github.com/user-attachments/assets/89fcc3e8-4e01-45a8-a51d-2a7af032aab9" />
